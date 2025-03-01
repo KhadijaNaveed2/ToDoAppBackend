@@ -1,15 +1,25 @@
 import mongoose from "mongoose";
 
 const taskSchema = new mongoose.Schema({
-name: {
+ title: {
     type: String,
-    required: true,
-    unique: true,
-},
- slug: {
+    required: true, // Ensure title is required
+  // Ensure title is unique
+  },
+
+  description: {
+    type: String,
+  },
+  date: {
+    type: Date,
+  },
+  file: {
+    type: String, 
+  },
+  slug: {
     type: String,
     lowercase: true,
- },
+  },
 });
 
 export default mongoose.model("task", taskSchema);

@@ -1,17 +1,18 @@
 import express from "express";
-import { isAdmin, requireSignIn } from "../Middlewares/authMiddleware.js";
-import { taskController, createtaskController, deletetaskController, singletaskController, updatetaskController } from "../Controllers/taskController.js";
+
+import { taskController, createtaskController, deletetaskController, singletaskController, updatetaskController, searchTaskController } from "../Controllers/taskController.js";
 
 // router object
 const router = express.Router();
 
 //Routing Perform
+router.get("/search-task", searchTaskController);
 //Create task
 
-router.post("/create-task", requireSignIn, isAdmin, createtaskController);
+router.post("/create-task",  createtaskController);
 
 //Update task
-router.post("/update-task/:id", requireSignIn, isAdmin, updatetaskController);
+router.put("/update-task/:id",updatetaskController);
 
 //GetAll task
 router.get("/get-task",  taskController);
@@ -20,6 +21,7 @@ router.get("/get-task",  taskController);
 router.get("/single-task/:slug",  singletaskController);
 
 //Delete task
-router.delete("/delete-task/:id", requireSignIn, isAdmin, deletetaskController);
+router.delete("/delete-task/:id", deletetaskController);
+
 
 export default router;
