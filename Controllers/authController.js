@@ -175,3 +175,32 @@ export const getUserListController = async (req, res) => {
         });
     }
 };
+export const updateProfileController = async (req, res) => {
+    try {
+      const { name, email, password, phoneno, address } = req.body;
+      const user = await userModal.findById(req.user._id);
+      //password
+      if (password && password.length < 6) {
+        return res.json({ error: "Password is Required and 6 character long" });
+      }
+      const hashedPassword = password ? await hashPassword(password) : undefined;
+      const updatedUser = await userModal.findByIdAndUpdate(req.user._id, {
+        name: name || user.name,
+        password: hashedPassword || user.password,
+        phoneno: phoneno || user.phoneno,
+        address: address || user.address,
+      }, { new: true });
+      res.status(200).send({
+        success: true,
+        message: "Profile Updated Successfully",
+        updatedUser
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(400).send({
+        success: false,
+        message: "Error while Update Profile",
+        error,
+      });
+    }
+  };
