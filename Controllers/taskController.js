@@ -5,7 +5,6 @@ export const createtaskController = async (req, res) => {
   try {
     const { title, description, date, file } = req.body;
 
-    // Check if title is provided
     if (!title || title.trim() === "") {
       return res.status(400).send({ message: "Title is Required" });
     }

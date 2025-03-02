@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 const taskSchema = new mongoose.Schema({
  title: {
     type: String,
-    required: true, // Ensure title is required
-  // Ensure title is unique
+    required: true, 
+  
   },
 
   description: {
