@@ -1,15 +1,28 @@
 import express from "express";
+import multer from "multer";
 
 import { taskController, createtaskController, deletetaskController, singletaskController, updatetaskController, searchTaskController } from "../Controllers/taskController.js";
 
 // router object
 const router = express.Router();
 
+// Multer setup
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, "./uploads"); 
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + "-" + (file.originalname || "file"));
+
+    },
+  });
+  
+
+  const upload = multer({ storage });
 //Routing Perform
 router.get("/search-task", searchTaskController);
-//Create task
-
-router.post("/create-task",  createtaskController);
+//Create task with file upload
+router.post("/create-task", upload.single('file'), createtaskController);
 
 //Update task
 router.put("/update-task/:id",updatetaskController);

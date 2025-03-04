@@ -3,7 +3,10 @@ import slugify from "slugify";
 
 export const createtaskController = async (req, res) => {
   try {
-    const { title, description, date, file } = req.body;
+    const { title, description, date } = req.body;
+    const file = req.file ? req.file.filename : null;
+
+    console.log(req.file, "file");
 
     if (!title || title.trim() === "") {
       return res.status(400).send({ message: "Title is Required" });
@@ -27,7 +30,7 @@ export const createtaskController = async (req, res) => {
 //Update task 
 export const updatetaskController = async (req, res) => {
   try {
-    const { title } = req.body; // Use title instead of name
+    const { title } = req.body; 
     const { id } = req.params;
 
     const task = await taskModal.findByIdAndUpdate(
